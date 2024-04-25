@@ -23,4 +23,4 @@ def create_threshold():
     
     return thresh
 
-create_threshold()
+print(create_threshold())
