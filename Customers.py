@@ -22,5 +22,3 @@ def create_threshold():
                               p = probs)
     
     return thresh
-
-print(create_threshold())
