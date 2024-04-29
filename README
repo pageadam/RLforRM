@@ -4,11 +4,11 @@ Reinforcement Learning For Revenue Management
 
 This repo currently has 2 files of importance:
 
-Customer.py includes a function that creates customer thresholds from a linearly decreasing probability mass function (pmf).
+Customers.py includes the class Customer() which has attribute 'threshold'. The attribute can be set exactly or through a random linearly decreasing probability function through methods of the class.
 
-test_notebook.ipynb is a notbook showcaseing how current functions work, and allows me to make sure the functions are running correctly.
+test_notebook.ipynb is a notebook showing examples and tests of current classes and methods. This ensures that our code is working as intended.
 
 -----------------------------------------------
 
 I will update this Repo as I become more comfortable with object orientaited programming within python and using git!
-The aim is that I will convert all my notebooks from my PhD into python files/calsses that can be used those interested.
+The aim is that I will convert all my notebooks from my PhD into python files/classes that can be used those interested.
