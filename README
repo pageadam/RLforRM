@@ -4,10 +4,17 @@ Reinforcement Learning For Revenue Management
 
 This repo currently has 2 files of importance:
 
-Customers.py includes the class Customer() which has attribute 'threshold'. The attribute can be set exactly or through a random linearly decreasing probability function through methods of the class.
+Customers.py includes the class Customer() which has attributes 'threshold' and 'lead_time'. 
+    - The 'threshold' attribute shows a customer's willingness to pay. It can be set exactly or through a random linearly decreasing probability mass function through methods of the class.
+    - The 'lead_time' attribute shows the time in days between a customer booking and arriving in the car park. This attribute can be assigned exactly or through a discrete uniform distribution through class methods.
 
-test_notebook.ipynb is a notebook showing examples and tests of current classes and methods. This ensures that our code is working as intended.
-
+test_notebook.ipynb is a notebook showing examples and tests of current classes and methods. This ensures that our code is working as intended. Currently tested:
+    - Customers:
+        - .getThreshold()
+        - .setThresholdLinear()
+        - .getLeadTime()
+        - .setLeadTimeUniform()
+        
 -----------------------------------------------
 
 I will update this Repo as I become more comfortable with object orientaited programming within python and using git!
