@@ -4,10 +4,12 @@ Reinforcement Learning For Revenue Management
 
 This repo currently has 2 files of importance:
 
-Customers.py includes the class Customer() which has attributes 'threshold', 'lead_time' and 'LoS'. 
+Customers.py includes the class Customer() which has the following attributes:
     - The 'threshold' attribute shows a customer's willingness to pay. It can be set exactly or through a random linearly decreasing probability mass function using methods of the class.
     - The 'lead_time' attribute shows the time in days between a customer booking and arriving in the car park. This attribute can be assigned exactly or through a discrete uniform distribution using class methods.
     -The 'LoS' attribute shows the duration, in days, that a customer willl be staying in the car park. This attribute can be assigned exactly or through a discrete uniform distribution using class methods.
+    -The 'segment' attribute shows which segmentation out customer comes from. this can either be "business", "leisure" or "switch".
+    -The 'buy_type' attribute dictates how the customer will buy given a choice of multiple products that lie under their willingness to pay.
 
 test_notebook.ipynb is a notebook showing examples and tests of current classes and methods. This ensures that our code is working as intended. Currently tested:
     - Customers:
@@ -17,6 +19,10 @@ test_notebook.ipynb is a notebook showing examples and tests of current classes 
         - .setLeadTimeUniform()
         - .getLoS()
         - .setLoSUniform()
+        - .getSegment()
+        - .setSegmentUniform()
+        - .getBuyType()
+        - .setBuyTypeUniform()
         
 -----------------------------------------------
 

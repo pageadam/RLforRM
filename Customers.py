@@ -17,7 +17,14 @@ class Customer():
 
     LoS: int
         customer's length of stay duration in the car park, measured in days
+
+    segment: str
+        shows which segmentation the customer lies in
+        possible options are "business", "leisure" or "switch"
     
+    buy_type: str
+        describes how a customer chooses to buy a product if they are willing to buy multiple
+        possble options are "min_buy", "max_buy", "rank_buy", "utility"
 
     Methods
     -------
@@ -47,28 +54,54 @@ class Customer():
     
     setLoSUniform(min_LoS: int = 1, max_LoS: int = 2):
         Changes the customer's LoS attribute to a random variable generated from a discrete Uniform[min_LoS,max_LoS] distribution
+
+    getSegment() -> str:
+        Returns a customer's segmentation
+
+    setSegmentExact(segment: str):
+        Changes a customer's segment attribute to the string "segment"
+
+    setSegmentUniform():
+        Changes a customer's segment attribute uniformly randomly to 1 of the 3 valid options
+
+    getBuyType() -> str:
+        Return's a customer's buy type
+
+    setBuyTypeExact(buy_type: str):
+        Changes a customer's buy_type attribute to the string "buy_type"
+
+    setBuyTypeUniform():
+        Changes a customer's buy_type attribute unifromly randomly to 1 of the 4 valid options
     """
 
-    def __init__(self, willingness_to_pay_threshold: float = float, lead_time: int = int, length_of_stay: int = int ):
+    def __init__(self, willingness_to_pay_threshold: float = float, lead_time: int = int, length_of_stay: int = int, segment: str = str, buy_type: str = str ):
         """
         Constructs all the necessary attributes for the customer object.
 
         Parameters
         ----------
-        willingness_to_pay_threshold: float, optional
-            maximum price (£) customer is willing to pay
-            converted to 'threshold' attribute (default is float)
+            willingness_to_pay_threshold: float, optional
+                maximum price (£) customer is willing to pay
+                converted to 'threshold' attribute (default is float)
 
-        lead_time: int, optional
-            days to go from customer booking to arriving at the car park (default is int)
+            lead_time: int, optional
+                days to go from customer booking to arriving at the car park (default is int)
 
-        length_of_stay: int, optional
-            duration of customer's stay at the car park measured in days (default is int)
+            length_of_stay: int, optional
+                duration of customer's stay at the car park measured in days (default is int)
+
+            segment: str, optional
+                which segmentation the customer falls under (default is str)
+
+            buy_type: str, optional
+                describes how the customer chooses between different prices (default is str)    
         """
     
         self.__threshold = willingness_to_pay_threshold
         self.__lead_time = lead_time
         self.__LoS = length_of_stay
+        self.__segment = segment
+        self.__buy_type = buy_type
 
     def getThreshold(self) -> float:
         """ Returns willingness to pay threshold of customer. """
@@ -80,8 +113,8 @@ class Customer():
         
         Parameters
         ----------
-        threshold : float
-            maximum price (£) customer is willing to pay
+            threshold : float
+                maximum price (£) customer is willing to pay
         """
         self.__threshold = threshold
 
@@ -92,13 +125,13 @@ class Customer():
 
         Parameters
         ----------
-        min_price: int, optional
-            minimum price from which customer's willingness to pay threshold will be generated from
-            (default is 0)
+            min_price: int, optional
+                minimum price from which customer's willingness to pay threshold will be generated from
+                (default is 0)
 
-        max_price: int, optional
-            maximum price from which customer's willingness to pay threshold will be generated from
-            (default is 100)
+            max_price: int, optional
+                maximum price from which customer's willingness to pay threshold will be generated from
+                (default is 100)
         """
         #create range from minumum and maximum parameters
         price_range = range(min_price,max_price+1)
@@ -128,8 +161,8 @@ class Customer():
         
         Parameters
         ----------
-        lead_time: int
-            number of days between customer booking adn then arriving in person
+            lead_time: int
+                number of days between customer booking adn then arriving in person
         """
         self.__lead_time = lead_time
 
@@ -140,13 +173,13 @@ class Customer():
 
         Parameters
         ----------
-        min_lead: int, optional
-            minumum number of days that can be assigned to a customer as lead time
-            (default is 1)
+            min_lead: int, optional
+                minumum number of days that can be assigned to a customer as lead time
+                (default is 1)
 
-        max_lead: int, optional
-            maximum number of days that can be assigned to a customer as lead time
-            (default is 7)
+            max_lead: int, optional
+                maximum number of days that can be assigned to a customer as lead time
+                (default is 7)
         """
 
         self.__lead_time = np.random.randint(low = min_lead, high = max_lead+1)
@@ -161,8 +194,8 @@ class Customer():
 
         Parameters
         ----------
-        length_of_stay: int
-            number of days the customer is staying in the car park
+            length_of_stay: int
+                number of days the customer is staying in the car park
         """
         self.__LoS = length_of_stay
 
@@ -173,13 +206,55 @@ class Customer():
 
         Parameters
         ----------
-        min_LoS: int, optional
-            minumum number of days that can be assigned to a customer's length of stay
-            (default is 1)
+            min_LoS: int, optional
+                minumum number of days that can be assigned to a customer's length of stay
+                (default is 1)
 
-        max_LoS: int, optional
-            maximum number of days that can be assigned to a customer's length of stay
-            (default is 2)
+            max_LoS: int, optional
+                maximum number of days that can be assigned to a customer's length of stay
+                (default is 2)
         """
 
         self.__LoS = np.random.randint(low = min_LoS, high = max_LoS+1)
+
+    def getSegment(self) -> str:
+        """Returns a customer's segmentation"""
+        return self.__segment
+    
+    def setSegmentExact(self, segment: str):
+        """
+        Changes a customer's segment attribute to the string 'segment'
+
+        Parameters
+        ----------
+            segment: str
+                segmentation customer falls under ("business", "leisure", "switch")
+        """
+        self.__segment = segment
+
+    def setSegmentUniform(self):
+        """
+        Changes a customer's segment attribute to either "business", "leisure" or "switch" uniformly randomly
+        """
+        self.__segment = np.random.choice(a = ["business", "leisure", "switch"], p = [1/3,1/3,1/3])
+
+    def getBuyType(self):
+        """Returns a customer's buy type - indicating how they choose a product if they are willing to buy multiple"""
+        return self.__buy_type
+    
+    def setBuyTypeExact(self, buy_type: str):
+        """
+        Changes a customer's buy_type attribute to the string 'buy_type'
+
+        Parameters
+        ----------
+            buy_type: str
+                defines how customer buys if given choice of multiple products they wish to buy
+        """
+        self.__buy_type = buy_type
+
+    def setBuyTypeUniform(self):
+        """
+        Changes a customer's buy_type attribute to either "min_buy", "max_buy", "rank_buy", "utility"
+        """
+        self.__buy_type = np.random.choice(a = ["min_buy", "max_buy", "rank_buy", "utility"], p = [1/4,1/4,1/4,1/4])
