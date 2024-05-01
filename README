@@ -14,8 +14,8 @@ Customers.py includes the class Customer() which has the following attributes:
 
 test_notebook.ipynb is a notebook showing examples and tests of current classes and methods. This ensures that our code is working as intended. Currently tested:
     - Customers:
-        - .getThreshold() NEEDS TO BE TESTED AGAIN FOR MULTPLE THRESHOLDS
-        - .setThresholdLinear() NEEDS TO BE TESTED AGAIN FOR MULTPLE THRESHOLDS
+        - .getThreshold() 
+        - .setThresholdLinear() both sorted, unsorted, 1 product and n products 
         - .getLeadTime()
         - .setLeadTimeUniform()
         - .getLoS()
@@ -23,7 +23,11 @@ test_notebook.ipynb is a notebook showing examples and tests of current classes 
         - .getSegment()
         - .setSegmentUniform()
         - .getBuyType()
+        - .setBuyTypeExact()
         - .setBuyTypeUniform()
+        - .getPreference()
+        - .setPreferenceRandom()
+        - .setPreferenceFromType()
         
 -----------------------------------------------
 
