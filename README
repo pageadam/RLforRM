@@ -10,11 +10,12 @@ Customers.py includes the class Customer() which has the following attributes:
     -The 'LoS' attribute shows the duration, in days, that a customer willl be staying in the car park. This attribute can be assigned exactly or through a discrete uniform distribution using class methods.
     -The 'segment' attribute shows which segmentation out customer comes from. this can either be "business", "leisure" or "switch".
     -The 'buy_type' attribute dictates how the customer will buy given a choice of multiple products that lie under their willingness to pay.
+    -The 'preference' attribute gives an  ordered list of integers corresponding to the products the customer wants (ordered from most to least preferred).
 
 test_notebook.ipynb is a notebook showing examples and tests of current classes and methods. This ensures that our code is working as intended. Currently tested:
     - Customers:
-        - .getThreshold()
-        - .setThresholdLinear()
+        - .getThreshold() NEEDS TO BE TESTED AGAIN FOR MULTPLE THRESHOLDS
+        - .setThresholdLinear() NEEDS TO BE TESTED AGAIN FOR MULTPLE THRESHOLDS
         - .getLeadTime()
         - .setLeadTimeUniform()
         - .getLoS()
