@@ -133,7 +133,9 @@ class Customer():
     def getThreshold(self) -> list[float] :
         """ Returns willingness to pay threshold of customer. """
         #if we only have one product, just return threshold as float rather than list 
-        if len(self.__threshold) == 1:
+        if type(self.__threshold) == float:
+            return self.__threshold
+        elif len(self.__threshold) == 1 :
             return float(self.__threshold[0])
         else:
             return self.__threshold  
