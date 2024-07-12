@@ -221,7 +221,7 @@ class QLearner:
         """
         self.__q_table = q_table
 
-    def initialiseQTable(self,q_value: float = 0.0):
+    def initialiseQTable(self, q_value: float = 0.0):
         """
         Initialises the Q-table for the Q-learning algorithm dependent on the number of states and actions of the MDP
 
@@ -234,6 +234,16 @@ class QLearner:
         #Create an array of size |States|*|Actions|, and then add initial Q-Value
         if self.__n_states == None:
             self.__q_table = np.zeros(self.__n_actions) + q_value
+
+        elif type(self.__n_states) == tuple and type(self.__n_actions) == tuple:
+            self.__q_table = np.zeros(self.__n_states + self.__n_actions) + q_value
+
+        elif type(self.__n_states) == tuple:
+            self.__q_table = np.zeros(self.__n_states + (self.__n_actions,)) + q_value
+        
+        elif type(self.__n_actions) == tuple:
+            self.__q_table = np.zeros((self.__n_states,) + self.__n_actions) + q_value
+        
         else:
             self.__q_table = np.zeros((self.__n_states,) + (self.__n_actions,)) + q_value
 
@@ -279,8 +289,11 @@ class QLearner:
                 state to find the argmax of
         """
         if state == None:
-            return np.argmax(self.__q_table[:])
-        return np.argmax(self.__q_table[state,:])
+            return np.argmax(self.__q_table[...])
+        elif type(state) == tuple:
+            return np.argmax(self.__q_table[state + (...,)])
+        else:
+            return np.argmax(self.__q_table[(state,) + (...,)])
     
     def getBestAction(self, state: tuple = None) -> tuple:
         """
@@ -293,7 +306,7 @@ class QLearner:
         """
         if state == None:
             return tuple(np.unravel_index(self.__q_table.argmax(), self.__q_table.shape))
-        return tuple(np.unravel_index(self.__q_table[state,:].argmax(), self.__q_table[state,:].shape))
+        return tuple(np.unravel_index(self.__q_table[state + (...,)].argmax(), self.__q_table[state + (...,)].shape))
     
     def getCurrentState(self) -> tuple:
         """Returns the current state of the MDP that the Q-Learner is currently in"""
@@ -341,5 +354,9 @@ class QLearner:
         """
         if self.__n_states == None:
             self.__q_table[action] = (1 - self.__learn_rate)*self.__q_table[action] + self.__learn_rate*reward
+        elif type(self.__n_states) == tuple and type(self.__n_actions) == tuple:
+            self.__q_table[self.__current_state + action] = (1 - self.__learn_rate)*self.__q_table[self.__current_state + action] + self.__learn_rate*(reward + self.__discount_factor*np.max(self.__q_table[self.__new_state + (...,)]))
+        elif type(self.__n_states) == tuple:
+            self.__q_table[self.__current_state + (action,)] = (1 - self.__learn_rate)*self.__q_table[self.__current_state + (action,)] + self.__learn_rate*(reward + self.__discount_factor*np.max(self.__q_table[self.__new_state + (...,)]))
         else:
-            self.__q_table[self.__current_state,action] = (1 - self.__learn_rate)*self.__q_table[self.__current_state,action] + self.__learn_rate*(reward + self.__discount_factor*np.argmax(self.__q_table[self.__new_state,:]))
+            self.__q_table[(self.__current_state,)+(action,)] = (1 - self.__learn_rate)*self.__q_table[(self.__current_state,)+(action,)] + self.__learn_rate*(reward + self.__discount_factor*np.max(self.__q_table[(self.__new_state,) + (...,)]))    
