@@ -79,9 +79,14 @@ for replication in tqdm(range(n_macro_reps)):
         #Q-Learning iteration
         q_table_cross[action_price] = (1-learn_rate) * q_table_cross[action_price] + learn_rate * final_reward_today
 
-        for dist in range(1,min(n_prices-action_price, action_price - 0)+1):
+        #learn from current price up to max price
+        for dist in range(1, n_prices - action_price + 1):
             learn_rate_aug = learn_rate/((dist+1)**2)
             q_table_cross[action_price+dist] = (1-learn_rate_aug)*q_table_cross[action_price+dist] + learn_rate_aug*final_reward_today
+
+        #learn from current price down to min price
+        for dist in range(1, action_price + 1):
+            learn_rate_aug = learn_rate/((dist+1)**2)
             q_table_cross[action_price-dist] = (1-learn_rate_aug)*q_table_cross[action_price-dist] + learn_rate_aug*final_reward_today
 
 np.save("qtables/CrossLearner", q_table_cross)

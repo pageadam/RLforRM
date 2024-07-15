@@ -79,18 +79,25 @@ for replication in tqdm(range(n_macro_reps)):
 
         percent_accept = accept_counter/n_customers
 
-        for dist in range(1,min(n_prices-action_price, action_price - 0)+1):
+        #back-learn backwards
+        for dist in range(1,action_price):
+            
+            #set new learning rate based on distance
+            learn_rate_aug = learn_rate/((dist+1)**2)
+
+            #learn backwards dependent on predicted reward
+            predicted_reward = percent_accept*(action_price-dist)
+            q_table_crossback[action_price-dist] = (1-learn_rate_aug)*q_table_crossback[action_price-dist] + learn_rate_aug*predicted_reward
+
+        #cross-learn forwards
+        for dist in range(1, n_prices - action_price + 1):
             
             #set new learning rate based on distance
             learn_rate_aug = learn_rate/((dist+1)**2)
             
             #cross learn across all actions
             q_table_crossback[action_price+dist] = (1-learn_rate_aug)*q_table_crossback[action_price+dist] + learn_rate_aug*final_reward_today
-            #q_table_crossback[action_price-dist] = (1-learn_rate_aug)*q_table_crossback[action_price-dist] + learn_rate_aug*final_reward_today
 
-            #learn backwards dependent on predicted reward
-            predicted_reward = percent_accept*(action_price-dist)
-            q_table_crossback[action_price-dist] = (1-learn_rate_aug)*q_table_crossback[action_price-dist] + learn_rate_aug*predicted_reward
             
 np.save("qtables/CrossBackLearner", q_table_crossback)
 np.save("rewards/CrossBackLearnerReward", reward_crossback)

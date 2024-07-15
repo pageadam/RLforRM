@@ -87,7 +87,7 @@ for replication in tqdm(range(n_macro_reps)):
         percent_accept = accept_counter/n_customers
 
         #for each price up to the current price
-        for dist in range(action_price):
+        for dist in range(1,action_price):
 
             #augment the learning rate dependent on distance
             learn_rate_aug = learn_rate/((dist+1)**2)
